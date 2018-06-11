@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+import requests
+import argparse
+import sys
+
+# Parse command line arguments
+parser = argparse.ArgumentParser('./get',
+    formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=100, width=150))
+parser.add_argument('host', help='Specify website URL (e.g. https://google.com)')
+parser.add_argument('-a', '--agent', default='python-requests', help='Specify user agent')
+parser.add_argument('-v', '--verbose', action='store_true', default=False, help='Enable verbose output')
+args = parser.parse_args()
+
+# GET request
+try:
+    r = requests.get(args.host, headers={'User-Agent': args.agent})
+except requests.exceptions.RequestException as ex:
+    print(ex)
+    sys.exit(1)
+
+# Request headers
+print('Request method: {0}'.format(r.request.method))
+print('URL: {0}'.format(args.host))
+
+for h, v in r.request.headers.items():
+    print('{0}: {1}'.format(h, v))
+
+# Response headers
+print('\nStatus code: {0}'.format(r.status_code))
+for h, v in r.headers.items():
+    print('{0}: {1}'.format(h, v))
+
+if args.verbose:
+    print(r.content.decode('utf-8'))
