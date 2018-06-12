@@ -5,7 +5,7 @@ import argparse
 import sys
 
 # Parse command line arguments
-parser = argparse.ArgumentParser('./get',
+parser = argparse.ArgumentParser('./GET',
     formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=100, width=150))
 parser.add_argument('host', help='Specify website URL (e.g. https://google.com)')
 parser.add_argument('-a', '--agent', default='python-requests', help='Specify user agent')
